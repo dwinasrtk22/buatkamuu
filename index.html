@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Happy 3rd Anniversary</title>
+<style>
+body {
+  margin:0; height:100vh; background:#74b5b8;
+  font-family:'Playfair', cursive;
+  display:flex; justify-content:center; align-items:center; overflow:hidden;
+}
+canvas {
+  position:fixed; top:0; left:0; width:100%; height:100%;
+  z-index:0; pointer-events:none;
+}
+.card {
+  position:relative; z-index:1;
+  background:#ffffff; border-radius:20px;
+  box-shadow:0 8px 30px rgba(0,0,0,0.2);
+  max-width:450px; width:90%; min-height:520px;
+  display:flex; flex-direction:column; overflow:hidden;
+  padding-bottom:60px; /* untuk ruang tombol musik */
+}
+.slide {
+  position:absolute; top:0; left:0; right:0; bottom:0;
+  display:flex; flex-direction:column;
+  opacity:0; pointer-events:none;
+}
+.slide.active {opacity:1; pointer-events:auto;}
+.content {
+  flex:1; padding:20px;
+  display:flex; flex-direction:column;
+  justify-content:center; align-items:center;
+  text-align:center; overflow-y:auto;
+}
+h1 {font-size:25px; margin:10px 0; color:#1ec4da;}
+p {font-size:20px; color:#333;}
+.pin-box {
+  display:flex; gap:10px; justify-content:center; margin:15px 0;
+}
+.pin-box input {
+  width:50px; height:60px; font-size:25px; text-align:center;
+  border-radius:10px; border:2px solid #1ec4da;
+}
+.error {color:#ff0000; margin-top:10px;}
+.keyboard .row {display:flex; justify-content:center; margin:5px 0;}
+.keyboard button {
+  width:60px; height:60px; margin:5px; border:none; border-radius:10px;
+  font-size:20px; background:#1ec4da; color:#fff; cursor:pointer;
+  box-shadow:0 4px 10px rgba(0,0,0,0.2); transition:0.2s;
+}
+.keyboard button:active {transform:scale(0.9); background:#1ec4da;}
+img {max-width:80%; border-radius:16px; box-shadow:0 4px 16px rgba(0,0,0,0.3); margin:15px 0;}
+.btn {
+  padding:10px 20px; border:none; border-radius:10px;
+  background:#1ec4da; color:#fff; font-size:15px; cursor:pointer;
+  box-shadow:0 4px 10px rgba(0,0,0,0.2); transition:0.3s;
+}
+.btn:hover {background:#1ec4da;}
+.nav-btns {
+  display:flex; justify-content:space-between; gap:10px;
+  padding:12px 20px; border-top:1px solid #eee; background:#fff;
+}
+/* Animasi Slide */
+@keyframes slideInRight { from {transform:translateX(100%); opacity:0;} to {transform:translateX(0); opacity:1;} }
+@keyframes slideOutLeft { from {transform:translateX(0); opacity:1;} to {transform:translateX(-100%); opacity:0;} }
+@keyframes slideInLeft { from {transform:translateX(-100%); opacity:0;} to {transform:translateX(0); opacity:1;} }
+@keyframes slideOutRight { from {transform:translateX(0); opacity:1;} to {transform:translateX(100%); opacity:0;} }
+.slide-in-right {animation:slideInRight 0.6s forwards;}
+.slide-out-left {animation:slideOutLeft 0.6s forwards;}
+.slide-in-left {animation:slideInLeft 0.6s forwards;}
+.slide-out-right {animation:slideOutRight 0.6s forwards;}
+
+</style>
+</head>
+<body>
+
+<canvas id="canvas"></canvas>
+
+<div class="card">
+  <!-- Slide 1 -->
+  <div class="slide active" id="slide1">
+    <div class="content">
+      <h1>Enter PIN!</h1>
+      <div class="pin-box">
+        <input type="password" maxlength="1" onkeydown="return false;">
+        <input type="password" maxlength="1" onkeydown="return false;">
+        <input type="password" maxlength="1" onkeydown="return false;">
+        <input type="password" maxlength="1" onkeydown="return false;">
+      </div>
+      <div class="keyboard">
+        <div class="row">
+          <button onclick="pressNum(1)">1</button>
+          <button onclick="pressNum(2)">2</button>
+          <button onclick="pressNum(3)">3</button>
+        </div>
+        <div class="row">
+          <button onclick="pressNum(4)">4</button>
+          <button onclick="pressNum(5)">5</button>
+          <button onclick="pressNum(6)">6</button>
+        </div>
+        <div class="row">
+          <button onclick="pressNum(7)">7</button>
+          <button onclick="pressNum(8)">8</button>
+          <button onclick="pressNum(9)">9</button>
+        </div>
+        <div class="row">
+          <button onclick="deleteNum()">⌫</button>
+          <button onclick="pressNum(0)">0</button>
+          <button onclick="checkPin()">✔</button>
+        </div>
+      </div>
+      <div class="error" id="errorMsg"></div>
+      <p style="margin-top:12px; font-size:14px; color:#555;"><i>* Clue: 3 years ago </i></p>
+    </div>
+  </div>
+
+  <!-- Slide 2 -->
+  <div class="slide" id="slide2">
+    <div class="content">
+      <h1>Happy 3rd Anniversary!</h1>
+      <img src="foto1.jpg" alt="Happy 3rd Anniversary!">
+      <p>From day 1 to 1.096 and i hope still counting! <3 </p>
+    </div>
+    <div class="nav-btns">
+      <button class="btn" onclick="prevSlide()">⬅ Kembali</button>
+      <button class="btn" onclick="nextSlide()">Lanjut ➡</button>
+    </div>
+  </div>
+
+  <!-- Slide 3 -->
+  <div class="slide" id="slide3">
+    <div class="content">
+      <h1>Halo Mas!</h1>
+      <p>From day one to 3rd years of us. Never imagine we will till this years and never imagine i will lost u (sad) 
+        Mas, thank you for being a great man in this relationship! Thank you for always caring me, always make sure me happy, safe and full. 
+        Thankyou for always celebrate me, us and this relationship. Thank you for always prioritizing my happiness.
+        I'm so sorry bcs i can't give u a good feedback for you, i'm sorry for all my mistake. 
+        Mas, i still and always pray for you all those dream that u once shared, i really hope they come true.
+        It's so wonderful to see you slowly starting to realize your dreams, one by one. Thank you for involving me in making them a reality. 
+        I'm proud and happy to be a part of your life and your dreams. I look forward to continuing to accompany you on your journey to pursue and achieve your future 🤍
+      </p>
+    </div>
+    <div class="nav-btns">
+      <button class="btn" onclick="prevSlide()">⬅ Kembali</button>
+      <button class="btn" onclick="nextSlide()">Lanjut ➡</button>
+    </div>
+  </div>
+
+  <!-- Slide 4 -->
+  <div class="slide" id="slide4">
+    <div class="content">
+      <!-- <h1>Happy to be part of ur journey</h1> -->
+      <img src="foto3.jpg" alt="Cheers to our happiness">
+      <p>Terimakasih sudah menjadi bagian penting dalam hidup aku. I'm so grateful to have you! I really miss u so much, please meet me and celebrate our anniversary when u arrive at jakarta</p>
+    </div>
+    <div class="nav-btns">
+      <button class="btn" onclick="prevSlide()">⬅ Kembali</button>
+      <button class="btn" onclick="nextSlide()">Lanjut ➡</button>
+    </div>
+  </div>
+
+  <!-- Slide 5 -->
+  <div class="slide" id="slide5">
+    <div class="our journey">
+      <video controls src= "our journey.MOV">
+      </video>
+      <style>
+        video{
+          float : center;
+          margin-right: 40px;
+          width : 450px;
+        }
+      </style>
+  </div>
+</div>
+
+<script>
+let currentSlide=1;
+const slides=document.querySelectorAll('.slide');
+function animateSlides(oldIndex,newIndex){
+  const oldSlide=slides[oldIndex-1];
+  const newSlide=slides[newIndex-1];
+  slides.forEach(s=>s.classList.remove("slide-in-right","slide-out-left","slide-in-left","slide-out-right","active"));
+  if(newIndex>oldIndex){ 
+    oldSlide.classList.add("slide-out-left");
+    newSlide.classList.add("slide-in-right");
+  } else {
+    oldSlide.classList.add("slide-out-right");
+    newSlide.classList.add("slide-in-left");
+  }
+  newSlide.classList.add("active");
+  currentSlide=newIndex;
+}
+function checkPin(){
+  const inputs=document.querySelectorAll('#slide1 input');
+  const pin=[...inputs].map(i=>i.value).join('');
+  if(pin==="2023"){
+    animateSlides(1,2);
+    document.getElementById('errorMsg').innerText="";
+  } else {
+    document.getElementById('errorMsg').innerText="PIN salah, coba lagi!";
+    inputs.forEach(i=>i.value="");
+  }
+}
+function nextSlide(){if(currentSlide<5) animateSlides(currentSlide,currentSlide+1);}
+function prevSlide(){if(currentSlide>2) animateSlides(currentSlide,currentSlide-1);}
+function pressNum(num){
+  const inputs=document.querySelectorAll('#slide1 input');
+  for(let i=0;i<inputs.length;i++){if(inputs[i].value===""){inputs[i].value=num; break;}}
+}
+function deleteNum(){
+  const inputs=document.querySelectorAll('#slide1 input');
+  for(let i=inputs.length-1;i>=0;i--){if(inputs[i].value!==""){inputs[i].value=""; break;}}
+}
+
+// Musik toggle
+let audio=new Audio("musik.mp3"); audio.loop=true;
+let isPlaying=false;
+function toggleMusic(){
+  if(isPlaying){audio.pause(); isPlaying=false; document.getElementById('musicToggle').innerText="▶ Play Musik";}
+  else{audio.play(); isPlaying=true; document.getElementById('musicToggle').innerText="⏸ Stop Musik";}
+}
+
+</script>
+
+</body>
+</html>
+
